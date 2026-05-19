@@ -1,0 +1,150 @@
+{
+  "series": [
+    {
+      "id": "portraits-of-the-inner-world",
+      "title": "Portraits of the Inner World",
+      "role": "current-exhibition",
+      "images": [
+        "a-painter-painting-a-painter.jpg",
+        "down-into-the-subconscious.jpg",
+        "inner-conflict.jpg",
+        "the-inner-child.jpg",
+        "volcanic-eruption.jpg",
+        "the-omen.jpg",
+        "the-frames-smasher.jpg",
+        "the-inner-stalker.jpg",
+        "fake-memories.jpg",
+        "the-internal-tribunal.jpg",
+        "the-winds-of-forgetting.jpg",
+        "labyrinth-of-the-mind.jpg"
+      ],
+      "assetPath": "./assets/inner-world/"
+    },
+    {
+      "id": "absent",
+      "title": "Absent",
+      "role": "series-library",
+      "representativeImage": "the-missing-part.jpg",
+      "images": [
+        "a-moment-of-relaxation.jpg",
+        "awaiting-nothing.jpg",
+        "error-404-gravity-not-found.jpg",
+        "farewell-to-gravity.jpg",
+        "head-in-the-clouds.jpg",
+        "the-gap.jpg",
+        "the-headless-majority.jpg",
+        "the-house-of-what-remains.jpg",
+        "the-missing-part.jpg",
+        "the-persistence-of-old-habits.jpg",
+        "this-is-not-an-email.jpg"
+      ],
+      "assetPath": "./assets/absent/"
+    },
+    {
+      "id": "fictional-realities",
+      "title": "Fictional Realities",
+      "role": "series-library",
+      "representativeImage": "the-raven-and-the-poet.jpg",
+      "images": [
+        "achilles-and-the-tortoise.jpg",
+        "atlas.jpg",
+        "king-midas-nightmare.jpg",
+        "room-101.jpg",
+        "sisyphus.jpg",
+        "the-amazing-ascent-of-remedios-the-beautiful.jpg",
+        "the-escape-from-king-minoss-labyrinth.jpg",
+        "the-master-and-margarita.jpg",
+        "the-old-library.jpg",
+        "the-raven-and-the-poet.jpg",
+        "the-road-not-taken.jpg",
+        "the-well.jpg"
+      ],
+      "excluded": [
+        "a-murder-investigation.jpg",
+        "dead-end.jpg",
+        "eureka-the-soap-opera.jpg",
+        "the-grinding-wheels-of-time.jpg",
+        "the-haute-couture-tailors-of-delusions.jpg",
+        "the-name-is-fuchs.jpg",
+        "the-well-2.jpg"
+      ],
+      "assetPath": "./assets/fictional-realities/"
+    },
+    {
+      "id": "time-travelers-diary",
+      "title": "The Time Traveler's Diary",
+      "role": "series-library",
+      "representativeImage": "galileos-secret.jpg",
+      "images": [
+        "ceci-nest-pas-toi.jpg",
+        "galileos-secret.jpg",
+        "golaiths-last-battle.jpg",
+        "king-davids-paparazzo.jpg",
+        "kitty-hawk-december-1903.jpg",
+        "lakehurst-may-1937.jpg",
+        "north-atlantic-april-1912.jpg",
+        "photographing-leo.jpg",
+        "the-day-the-stone-spoke.jpg",
+        "the-day-the-train-came-twice.jpg",
+        "the-persistence-of-melting.jpg",
+        "thinking-about-thinking.jpg"
+      ],
+      "excluded": [
+        "the-gentle-hands-of-the-executionaire.jpg",
+        "the-cubist-time-traveler.jpg"
+      ],
+      "assetPath": "./assets/time-travelers-diary/"
+    },
+    {
+      "id": "echoes-behind-the-mirror",
+      "title": "Echoes Behind the Mirror",
+      "role": "series-library",
+      "representativeImage": "welcome-to-the-mirror-world.jpg",
+      "images": [
+        "genesis-1-26.jpg",
+        "head-first-jump-into-the-mirror-world.jpg",
+        "in-deep-waters.jpg",
+        "inside-the-mirror-world.jpg",
+        "meeting-young-me.jpg",
+        "peeking.jpg",
+        "the-man-with-no-reflections.jpg",
+        "the-man-with-the-wrong-reflection.jpg",
+        "the-shatterer.jpg",
+        "the-slap.jpg",
+        "welcome-to-the-mirror-world.jpg"
+      ],
+      "assetPath": "./assets/echoes-behind-the-mirror/"
+    },
+    {
+      "id": "fading-horizons",
+      "title": "Fading Horizons",
+      "role": "series-library",
+      "representativeImage": "the-hourglass.jpg",
+      "images": [
+        "as-time-flies-by.jpg",
+        "fluid-time.jpg",
+        "internal-clock.jpg",
+        "ozymandias.jpg",
+        "the-clock-tower-prisoner.jpg",
+        "the-cog-wheels-of-time.jpg",
+        "the-hand-of-time.jpg",
+        "the-hourglass.jpg",
+        "the-spiral-staircase-of-memories.jpg",
+        "the-time-of-long-shadows.jpg",
+        "the-valley-of-shadow-of-death.jpg",
+        "your-time-is-up.jpg"
+      ],
+      "excluded": [
+        "ants.jpg",
+        "atlas.jpg",
+        "hatching.jpg",
+        "janos.jpg",
+        "liquid-time.jpg",
+        "the-inner-child.jpg",
+        "the-threshold.jpg",
+        "time-on-thin-ice.jpg"
+      ],
+      "assetPath": "./assets/fading-horizons/"
+    }
+  ]
+}

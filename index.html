@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dov Fuchs | Digital Art Gallery</title>
+    <meta
+      name="description"
+      content="A navigable 3D digital art gallery for Dov Fuchs, presenting current exhibitions, artist information, and an explorable virtual gallery space."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Kaushan+Script&family=Sora:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://unpkg.com/three@0.161.0/build/three.module.js",
+          "three/addons/": "https://unpkg.com/three@0.161.0/examples/jsm/"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <main id="app" aria-label="Navigable 3D gallery background">
+      <div id="gallery"></div>
+
+      <header class="topbar">
+        <button class="brand-logo" type="button" data-reset aria-label="Dov Fuchs logo, reset view">
+          <span class="brand-mark">DF</span>
+          <span class="brand-name">Dov Fuchs</span>
+        </button>
+        <span class="site-title"><span>Dov Fuchs</span><span>Digital Art Gallery</span></span>
+      </header>
+
+      <button class="sound-toggle" type="button" data-sound aria-label="Toggle ambient soundtrack">Sound Off</button>
+      <aside class="visitor-counter" aria-label="Visitor counter">
+        <span>Visitors</span>
+        <strong id="visitor-count">0</strong>
+        <label><input type="checkbox" id="owner-mode" /> Owner mode</label>
+        <button type="button" id="reset-visitors">Reset</button>
+      </aside>
+
+      <section class="intro" id="intro">
+        <h1><span class="intro-name">Dov Fuchs</span><span class="intro-gallery">Digital Art Gallery</span></h1>
+        <button class="primary-action" type="button" data-start>Enter gallery</button>
+      </section>
+
+      <aside class="hud" aria-label="Navigation controls">
+        <div><span>Move</span><strong>WASD / arrows</strong></div>
+        <div><span>Look</span><strong>drag mouse</strong></div>
+        <div><span>Height</span><strong>Q / E</strong></div>
+        <div><span>Starting point</span><strong>Image of the Month</strong></div>
+      </aside>
+
+      <button class="zero-button" type="button" data-zero aria-label="Return to the starting point">Starting point</button>
+      <button class="office-button" type="button" data-office aria-label="Go directly to the Office">Office</button>
+      <button class="bulletin-button" type="button" data-bulletin aria-label="Go directly to the Bulletin Board">Bulletin Board</button>
+
+      <div class="move-pad" aria-label="Movement buttons">
+        <button type="button" data-control="forward-left" aria-label="Move forward left">&nwarr;</button>
+        <button type="button" data-control="forward" aria-label="Move forward">&uarr;</button>
+        <button type="button" data-control="forward-right" aria-label="Move forward right">&nearr;</button>
+        <button type="button" data-control="left" aria-label="Turn left">&larr;</button>
+        <button type="button" data-control="back" aria-label="Move backward">&darr;</button>
+        <button type="button" data-control="right" aria-label="Turn right">&rarr;</button>
+      </div>
+
+      <div class="altitude-pad" aria-label="Vertical movement buttons">
+        <button type="button" data-control="up" aria-label="Move upward">Up</button>
+        <button type="button" data-control="down" aria-label="Move downward">Down</button>
+      </div>
+
+      <aside class="mini-map-panel" aria-label="Top view of the exhibition hall">
+        <span>Top view</span>
+        <canvas id="mini-map" width="220" height="260"></canvas>
+      </aside>
+
+      <section class="info-panel" id="info-panel" aria-hidden="true">
+        <button type="button" data-close-info aria-label="Close artwork info">x</button>
+        <span id="info-series" hidden></span>
+        <h2 id="info-title">Artwork title</h2>
+        <p id="info-description">Artwork description</p>
+      </section>
+
+      <section class="image-modal" id="image-modal" aria-hidden="true">
+        <button type="button" data-close-image aria-label="Close enlarged image">x</button>
+        <img id="image-modal-img" alt="" />
+        <h2 id="image-modal-title">Artwork title</h2>
+      </section>
+
+      <section class="series-modal" id="series-modal" aria-hidden="true">
+        <button class="series-close" type="button" data-close-series aria-label="Close series viewer">x</button>
+        <button class="series-nav series-prev" type="button" data-series-prev aria-label="Previous series image">&larr;</button>
+        <figure>
+          <img id="series-modal-img" alt="" />
+          <figcaption>
+            <span id="series-modal-count">1 / 12</span>
+            <h2 id="series-modal-title">Artwork title</h2>
+            <p id="series-modal-description">Artwork description</p>
+          </figcaption>
+        </figure>
+        <button class="series-nav series-next" type="button" data-series-next aria-label="Next series image">&rarr;</button>
+      </section>
+
+      <section class="pdf-modal" id="pdf-modal" aria-hidden="true">
+        <button type="button" data-close-pdf aria-label="Close document">x</button>
+        <h2 id="pdf-modal-title">Document title</h2>
+        <iframe id="pdf-modal-frame" title="Office document viewer"></iframe>
+      </section>
+    </main>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
