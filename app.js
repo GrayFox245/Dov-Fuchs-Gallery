@@ -1486,13 +1486,81 @@ function addSoftSeating() {
 addSoftSeating();
 
 function makeVisitorMaterial(color) {
-  return new THREE.MeshStandardMaterial({
+  return new THREE.MeshBasicMaterial({
     color,
-    roughness: 0.78,
-    metalness: 0.04,
     transparent: true,
-    opacity: 0.9,
+    opacity: 0.72,
+    side: THREE.DoubleSide,
+    depthWrite: false,
   });
+}
+
+function makeVisitorSilhouetteTexture({ coat = "#171513", accent = "#2a2420", skin = "#b89976", style = "coat" }) {
+  const canvas = document.createElement("canvas");
+  canvas.width = 512;
+  canvas.height = 512;
+  const context = canvas.getContext("2d");
+  context.clearRect(0, 0, canvas.width, canvas.height);
+
+  context.fillStyle = "rgba(0,0,0,.18)";
+  context.beginPath();
+  context.ellipse(256, 480, 118, 22, 0, 0, Math.PI * 2);
+  context.fill();
+
+  context.fillStyle = skin;
+  context.beginPath();
+  context.arc(256, style === "child" ? 122 : 104, style === "child" ? 34 : 31, 0, Math.PI * 2);
+  context.fill();
+
+  context.fillStyle = "#11100e";
+  context.beginPath();
+  if (style === "coat") {
+    context.ellipse(256, 76, 62, 13, 0, 0, Math.PI * 2);
+    context.rect(229, 54, 54, 28);
+  } else {
+    context.arc(256, style === "child" ? 101 : 84, style === "child" ? 39 : 34, Math.PI, 0);
+  }
+  context.fill();
+
+  const torsoTop = style === "child" ? 158 : 145;
+  const torsoBottom = style === "child" ? 342 : 372;
+  context.fillStyle = coat;
+  context.beginPath();
+  context.moveTo(205, torsoTop);
+  context.lineTo(307, torsoTop);
+  context.lineTo(332, torsoBottom);
+  context.lineTo(286, torsoBottom);
+  context.lineTo(273, 438);
+  context.lineTo(238, 438);
+  context.lineTo(226, torsoBottom);
+  context.lineTo(180, torsoBottom);
+  context.closePath();
+  context.fill();
+
+  context.fillStyle = accent;
+  context.beginPath();
+  context.moveTo(211, torsoTop + 22);
+  context.lineTo(174, torsoTop + 112);
+  context.lineTo(188, torsoTop + 128);
+  context.lineTo(222, torsoTop + 58);
+  context.closePath();
+  context.moveTo(301, torsoTop + 22);
+  context.lineTo(338, torsoTop + 112);
+  context.lineTo(324, torsoTop + 128);
+  context.lineTo(290, torsoTop + 58);
+  context.closePath();
+  context.fill();
+
+  context.strokeStyle = "rgba(230,214,184,.22)";
+  context.lineWidth = 4;
+  context.beginPath();
+  context.moveTo(256, torsoTop + 12);
+  context.lineTo(256, torsoBottom - 12);
+  context.stroke();
+
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.colorSpace = THREE.SRGBColorSpace;
+  return texture;
 }
 
 function addGalleryVisitor({ name, color, accent = 0x1a1714, scale = 1, path, speed = 0.52, phase = 0, style = "coat" }) {
@@ -1507,10 +1575,6 @@ function addGalleryVisitor({ name, color, accent = 0x1a1714, scale = 1, path, sp
     avoidRadius: 1.45 * scale,
   });
 
-  const clothingMaterial = makeVisitorMaterial(color);
-  const accentMaterial = makeVisitorMaterial(accent);
-  const skinMaterial = makeVisitorMaterial(0xc6a27a);
-  const hairMaterial = makeVisitorMaterial(0x171310);
   const shadow = new THREE.Mesh(
     new THREE.CircleGeometry(0.6 * scale, 28),
     new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.22, depthWrite: false })
@@ -1519,61 +1583,28 @@ function addGalleryVisitor({ name, color, accent = 0x1a1714, scale = 1, path, sp
   shadow.position.y = 0.025;
   group.add(shadow);
 
-  const torsoHeight = style === "child" ? 0.7 : 0.96;
-  const shoulderWidth = style === "coat" ? 0.42 : 0.36;
-  const torso = new THREE.Mesh(new THREE.BoxGeometry(shoulderWidth * scale, torsoHeight * scale, 0.22 * scale), clothingMaterial);
-  torso.position.y = (style === "child" ? 0.96 : 1.08) * scale;
-  torso.castShadow = true;
-  group.add(torso);
+  const silhouetteTexture = makeVisitorSilhouetteTexture({
+    coat: `#${color.toString(16).padStart(6, "0")}`,
+    accent: `#${accent.toString(16).padStart(6, "0")}`,
+    style,
+  });
+  const silhouetteMaterial = new THREE.MeshBasicMaterial({
+    map: silhouetteTexture,
+    transparent: true,
+    opacity: 0.82,
+    side: THREE.DoubleSide,
+    depthWrite: false,
+  });
+  const height = style === "child" ? 1.28 * scale : 1.82 * scale;
+  const width = style === "child" ? 0.72 * scale : 0.88 * scale;
+  const front = new THREE.Mesh(new THREE.PlaneGeometry(width, height), silhouetteMaterial);
+  front.position.y = height / 2;
+  group.add(front);
 
-  const coat = new THREE.Mesh(new THREE.BoxGeometry((shoulderWidth + 0.1) * scale, 0.72 * scale, 0.08 * scale), accentMaterial);
-  coat.position.set(0, 0.72 * scale, -0.08 * scale);
-  coat.castShadow = true;
-  group.add(coat);
+  const side = front.clone();
+  side.rotation.y = Math.PI / 2;
+  group.add(side);
 
-  const head = new THREE.Mesh(new THREE.SphereGeometry(0.17 * scale, 18, 12), skinMaterial);
-  head.position.y = (style === "child" ? 1.42 : 1.68) * scale;
-  head.castShadow = true;
-  group.add(head);
-
-  const hair = new THREE.Mesh(
-    style === "child" ? new THREE.SphereGeometry(0.18 * scale, 14, 8) : new THREE.CylinderGeometry(0.19 * scale, 0.16 * scale, 0.1 * scale, 18),
-    hairMaterial
-  );
-  hair.position.y = (style === "child" ? 1.5 : 1.8) * scale;
-  hair.castShadow = true;
-  group.add(hair);
-
-  if (style === "coat") {
-    const hat = new THREE.Mesh(new THREE.CylinderGeometry(0.25 * scale, 0.25 * scale, 0.055 * scale, 22), accentMaterial);
-    hat.position.y = 1.9 * scale;
-    hat.castShadow = true;
-    group.add(hat);
-  }
-
-  const armGeometry = new THREE.CapsuleGeometry(0.045 * scale, 0.52 * scale, 3, 8);
-  const leftArm = new THREE.Mesh(armGeometry, clothingMaterial);
-  leftArm.position.set(-0.32 * scale, 1.02 * scale, 0.01 * scale);
-  leftArm.rotation.z = 0.16;
-  leftArm.castShadow = true;
-  group.add(leftArm);
-
-  const rightArm = leftArm.clone();
-  rightArm.position.x = 0.32 * scale;
-  rightArm.rotation.z = -0.16;
-  group.add(rightArm);
-
-  const legGeometry = new THREE.CapsuleGeometry(0.052 * scale, 0.58 * scale, 3, 8);
-  const leftLeg = new THREE.Mesh(legGeometry, accentMaterial);
-  leftLeg.position.set(-0.11 * scale, 0.34 * scale, 0);
-  leftLeg.castShadow = true;
-  group.add(leftLeg);
-
-  const rightLeg = leftLeg.clone();
-  rightLeg.position.x = 0.11 * scale;
-  group.add(rightLeg);
-
-  group.userData.parts = { leftArm, rightArm, leftLeg, rightLeg };
   group.position.set(path[0].x, 0, path[0].z);
   scene.add(group);
   galleryVisitors.push(group);
@@ -1605,12 +1636,8 @@ function updateGalleryVisitors(delta) {
     visitor.userData.collider.x = pose.x;
     visitor.userData.collider.z = pose.z;
 
-    const stride = Math.sin(performance.now() * 0.004 + index * 1.4) * 0.16;
-    const { leftArm, rightArm, leftLeg, rightLeg } = visitor.userData.parts;
-    leftArm.rotation.x = stride;
-    rightArm.rotation.x = -stride;
-    leftLeg.rotation.x = -stride;
-    rightLeg.rotation.x = stride;
+    const breathingScale = 1 + Math.sin(performance.now() * 0.0018 + index) * 0.012;
+    visitor.scale.setScalar(breathingScale);
   });
 }
 
