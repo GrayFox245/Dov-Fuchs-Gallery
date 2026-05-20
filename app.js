@@ -1488,14 +1488,14 @@ addSoftSeating();
 function makeVisitorMaterial(color) {
   return new THREE.MeshStandardMaterial({
     color,
-    roughness: 0.86,
-    metalness: 0.02,
+    roughness: 0.78,
+    metalness: 0.04,
     transparent: true,
-    opacity: 0.74,
+    opacity: 0.9,
   });
 }
 
-function addGalleryVisitor({ name, color, scale = 1, path, speed = 0.52, phase = 0 }) {
+function addGalleryVisitor({ name, color, accent = 0x1a1714, scale = 1, path, speed = 0.52, phase = 0, style = "coat" }) {
   const group = new THREE.Group();
   group.name = name;
   group.userData.path = path;
@@ -1507,40 +1507,65 @@ function addGalleryVisitor({ name, color, scale = 1, path, speed = 0.52, phase =
     avoidRadius: 1.45 * scale,
   });
 
-  const material = makeVisitorMaterial(color);
+  const clothingMaterial = makeVisitorMaterial(color);
+  const accentMaterial = makeVisitorMaterial(accent);
+  const skinMaterial = makeVisitorMaterial(0xc6a27a);
+  const hairMaterial = makeVisitorMaterial(0x171310);
   const shadow = new THREE.Mesh(
-    new THREE.CircleGeometry(0.52 * scale, 24),
-    new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.26, depthWrite: false })
+    new THREE.CircleGeometry(0.6 * scale, 28),
+    new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.22, depthWrite: false })
   );
   shadow.rotation.x = -Math.PI / 2;
   shadow.position.y = 0.025;
   group.add(shadow);
 
-  const body = new THREE.Mesh(new THREE.CapsuleGeometry(0.22 * scale, 0.82 * scale, 4, 10), material);
-  body.position.y = 0.98 * scale;
-  body.castShadow = true;
-  group.add(body);
+  const torsoHeight = style === "child" ? 0.7 : 0.96;
+  const shoulderWidth = style === "coat" ? 0.42 : 0.36;
+  const torso = new THREE.Mesh(new THREE.BoxGeometry(shoulderWidth * scale, torsoHeight * scale, 0.22 * scale), clothingMaterial);
+  torso.position.y = (style === "child" ? 0.96 : 1.08) * scale;
+  torso.castShadow = true;
+  group.add(torso);
 
-  const head = new THREE.Mesh(new THREE.SphereGeometry(0.19 * scale, 14, 10), material);
-  head.position.y = 1.62 * scale;
+  const coat = new THREE.Mesh(new THREE.BoxGeometry((shoulderWidth + 0.1) * scale, 0.72 * scale, 0.08 * scale), accentMaterial);
+  coat.position.set(0, 0.72 * scale, -0.08 * scale);
+  coat.castShadow = true;
+  group.add(coat);
+
+  const head = new THREE.Mesh(new THREE.SphereGeometry(0.17 * scale, 18, 12), skinMaterial);
+  head.position.y = (style === "child" ? 1.42 : 1.68) * scale;
   head.castShadow = true;
   group.add(head);
 
-  const armGeometry = new THREE.CapsuleGeometry(0.055 * scale, 0.48 * scale, 3, 8);
-  const leftArm = new THREE.Mesh(armGeometry, material);
-  leftArm.position.set(-0.29 * scale, 1.0 * scale, 0);
-  leftArm.rotation.z = 0.22;
+  const hair = new THREE.Mesh(
+    style === "child" ? new THREE.SphereGeometry(0.18 * scale, 14, 8) : new THREE.CylinderGeometry(0.19 * scale, 0.16 * scale, 0.1 * scale, 18),
+    hairMaterial
+  );
+  hair.position.y = (style === "child" ? 1.5 : 1.8) * scale;
+  hair.castShadow = true;
+  group.add(hair);
+
+  if (style === "coat") {
+    const hat = new THREE.Mesh(new THREE.CylinderGeometry(0.25 * scale, 0.25 * scale, 0.055 * scale, 22), accentMaterial);
+    hat.position.y = 1.9 * scale;
+    hat.castShadow = true;
+    group.add(hat);
+  }
+
+  const armGeometry = new THREE.CapsuleGeometry(0.045 * scale, 0.52 * scale, 3, 8);
+  const leftArm = new THREE.Mesh(armGeometry, clothingMaterial);
+  leftArm.position.set(-0.32 * scale, 1.02 * scale, 0.01 * scale);
+  leftArm.rotation.z = 0.16;
   leftArm.castShadow = true;
   group.add(leftArm);
 
   const rightArm = leftArm.clone();
-  rightArm.position.x = 0.29 * scale;
-  rightArm.rotation.z = -0.22;
+  rightArm.position.x = 0.32 * scale;
+  rightArm.rotation.z = -0.16;
   group.add(rightArm);
 
-  const legGeometry = new THREE.CapsuleGeometry(0.06 * scale, 0.54 * scale, 3, 8);
-  const leftLeg = new THREE.Mesh(legGeometry, material);
-  leftLeg.position.set(-0.11 * scale, 0.38 * scale, 0);
+  const legGeometry = new THREE.CapsuleGeometry(0.052 * scale, 0.58 * scale, 3, 8);
+  const leftLeg = new THREE.Mesh(legGeometry, accentMaterial);
+  leftLeg.position.set(-0.11 * scale, 0.34 * scale, 0);
   leftLeg.castShadow = true;
   group.add(leftLeg);
 
@@ -1580,7 +1605,7 @@ function updateGalleryVisitors(delta) {
     visitor.userData.collider.x = pose.x;
     visitor.userData.collider.z = pose.z;
 
-    const stride = Math.sin(performance.now() * 0.005 + index * 1.4) * 0.34;
+    const stride = Math.sin(performance.now() * 0.004 + index * 1.4) * 0.16;
     const { leftArm, rightArm, leftLeg, rightLeg } = visitor.userData.parts;
     leftArm.rotation.x = stride;
     rightArm.rotation.x = -stride;
@@ -1592,10 +1617,12 @@ function updateGalleryVisitors(delta) {
 function addGalleryVisitors() {
   addGalleryVisitor({
     name: "gallery-visitor-woman",
-    color: 0x28334a,
+    color: 0x26384c,
+    accent: 0x111821,
     scale: 0.92,
-    speed: 0.54,
+    speed: 0.38,
     phase: 0.12,
+    style: "jacket",
     path: [
       { x: -9.5, z: -13.0 },
       { x: -4.2, z: -13.7 },
@@ -1605,10 +1632,12 @@ function addGalleryVisitors() {
   });
   addGalleryVisitor({
     name: "gallery-visitor-man",
-    color: 0x3b3027,
+    color: 0x332a24,
+    accent: 0x14100e,
     scale: 1.06,
-    speed: 0.38,
+    speed: 0.3,
     phase: 0.44,
+    style: "coat",
     path: [
       { x: 4.4, z: 12.2 },
       { x: 12.2, z: 12.2 },
@@ -1618,10 +1647,12 @@ function addGalleryVisitors() {
   });
   addGalleryVisitor({
     name: "gallery-visitor-child",
-    color: 0x5d5f3f,
+    color: 0x5b613d,
+    accent: 0x242716,
     scale: 0.66,
-    speed: 0.68,
+    speed: 0.46,
     phase: 0.7,
+    style: "child",
     path: [
       { x: -11.4, z: 6.7 },
       { x: -7.2, z: 8.0 },
