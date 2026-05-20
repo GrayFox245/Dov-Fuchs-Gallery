@@ -42,6 +42,12 @@ let soundtrackOn = false;
 let soundtrackTrackIndex = 0;
 let activeSeries = null;
 let activeSeriesIndex = 0;
+const startingPoint = {
+  x: 14.8,
+  y: 1.75,
+  z: -16.0,
+  yaw: -0.62,
+};
 const soundtrack = new Audio();
 soundtrack.preload = "auto";
 soundtrack.volume = 0.42;
@@ -361,9 +367,9 @@ scene.background = new THREE.Color(0x6f91a6);
 scene.fog = new THREE.Fog(0x6f91a6, 42, 95);
 
 const camera = new THREE.PerspectiveCamera(68, window.innerWidth / window.innerHeight, 0.1, 120);
-camera.position.set(-4.25, 1.75, -4.5);
+camera.position.set(startingPoint.x, startingPoint.y, startingPoint.z);
 camera.rotation.order = "YXZ";
-yaw = Math.PI / 2;
+yaw = startingPoint.yaw;
 
 const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -2473,8 +2479,8 @@ async function toggleSoundtrack() {
 }
 
 function resetCamera() {
-  camera.position.set(-4.25, 1.75, -4.5);
-  yaw = Math.PI / 2;
+  camera.position.set(startingPoint.x, startingPoint.y, startingPoint.z);
+  yaw = startingPoint.yaw;
   pitch = 0;
   moveTarget = null;
   officeDoorOpen = false;
@@ -2575,7 +2581,7 @@ function drawMiniMap() {
   miniMapContext.fillStyle = "rgba(244,239,228,.62)";
   miniMapContext.font = "700 9px Sora, Arial, sans-serif";
   miniMapContext.textAlign = "center";
-  miniMapContext.fillText("Beginning", toMapX(-4.5), toMapY(12) + 16);
+  miniMapContext.fillText("Starting Point", toMapX(startingPoint.x) - 25, toMapY(startingPoint.z) - 10);
   miniMapContext.fillText("Office", toMapX(7.6), toMapY(25.8));
 
   const viewerX = toMapX(camera.position.x);
