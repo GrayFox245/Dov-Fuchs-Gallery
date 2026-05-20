@@ -2591,36 +2591,56 @@ function drawMiniMap() {
   miniMapContext.translate(viewerX, viewerY);
   miniMapContext.rotate(Math.atan2(viewDirection.x, viewDirection.z));
 
-  miniMapContext.fillStyle = "#a9bd73";
-  miniMapContext.strokeStyle = "rgba(10,10,9,.78)";
+  miniMapContext.strokeStyle = "rgba(255, 235, 214, .92)";
   miniMapContext.lineWidth = 2.2;
   miniMapContext.beginPath();
-  miniMapContext.arc(0, 0, 10, 0, Math.PI * 2);
-  miniMapContext.fill();
+  miniMapContext.moveTo(-12, -10);
+  miniMapContext.lineTo(12, 10);
+  miniMapContext.moveTo(12, -10);
+  miniMapContext.lineTo(-12, 10);
   miniMapContext.stroke();
 
-  miniMapContext.fillStyle = "rgba(10,10,9,.78)";
-  miniMapContext.beginPath();
-  miniMapContext.arc(-8.4, 1, 2.2, 0, Math.PI * 2);
-  miniMapContext.arc(8.4, 1, 2.2, 0, Math.PI * 2);
-  miniMapContext.fill();
-
-  miniMapContext.strokeStyle = "#f4efe4";
+  miniMapContext.fillStyle = "rgba(190, 32, 38, .96)";
+  miniMapContext.strokeStyle = "rgba(30, 8, 8, .9)";
   miniMapContext.lineWidth = 2;
+  [
+    [-14, -12],
+    [14, -12],
+    [-14, 12],
+    [14, 12],
+  ].forEach(([x, y]) => {
+    miniMapContext.beginPath();
+    miniMapContext.arc(x, y, 5.2, 0, Math.PI * 2);
+    miniMapContext.fill();
+    miniMapContext.stroke();
+  });
+
+  miniMapContext.fillStyle = "#d92632";
   miniMapContext.beginPath();
-  miniMapContext.arc(-4.4, -5.6, 3.4, 0, Math.PI * 2);
-  miniMapContext.arc(4.4, -5.6, 3.4, 0, Math.PI * 2);
-  miniMapContext.moveTo(-1, -5.6);
-  miniMapContext.lineTo(1, -5.6);
+  miniMapContext.roundRect(-8, -8, 16, 16, 4);
+  miniMapContext.fill();
   miniMapContext.stroke();
 
-  miniMapContext.fillStyle = "rgba(244,239,228,.9)";
+  miniMapContext.fillStyle = "#12110f";
   miniMapContext.beginPath();
-  miniMapContext.moveTo(0, -17);
-  miniMapContext.lineTo(4.3, -10.2);
-  miniMapContext.lineTo(-4.3, -10.2);
+  miniMapContext.arc(0, -3.2, 3.2, 0, Math.PI * 2);
+  miniMapContext.fill();
+
+  miniMapContext.fillStyle = "#f4efe4";
+  miniMapContext.beginPath();
+  miniMapContext.arc(0, -3.2, 1.4, 0, Math.PI * 2);
+  miniMapContext.fill();
+
+  miniMapContext.fillStyle = "rgba(217, 38, 50, .36)";
+  miniMapContext.strokeStyle = "rgba(255, 235, 214, .9)";
+  miniMapContext.lineWidth = 1.5;
+  miniMapContext.beginPath();
+  miniMapContext.moveTo(0, -8);
+  miniMapContext.lineTo(7, -24);
+  miniMapContext.lineTo(-7, -24);
   miniMapContext.closePath();
   miniMapContext.fill();
+  miniMapContext.stroke();
   miniMapContext.restore();
 }
 
