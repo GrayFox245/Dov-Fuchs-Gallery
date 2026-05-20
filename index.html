@@ -6,8 +6,27 @@
     <title>Dov Fuchs | Digital Art Gallery</title>
     <meta
       name="description"
-      content="A navigable 3D digital art gallery for Dov Fuchs, presenting current exhibitions, artist information, and an explorable virtual gallery space."
+      content="Dov Fuchs Digital Art Gallery is an immersive virtual gallery presenting current exhibitions, selected digital art series, artist information, and curated office documents."
     />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#171715" />
+    <link rel="canonical" href="https://cerulean-pie-4aec2e.netlify.app/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Dov Fuchs Digital Art Gallery" />
+    <meta property="og:title" content="Dov Fuchs | Digital Art Gallery" />
+    <meta
+      property="og:description"
+      content="An immersive virtual gallery for Dov Fuchs, presenting current exhibitions, selected digital art series, artist information, and office documents."
+    />
+    <meta property="og:url" content="https://cerulean-pie-4aec2e.netlify.app/" />
+    <meta property="og:image" content="https://cerulean-pie-4aec2e.netlify.app/assets/intro/the-house-of-what-remains.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Dov Fuchs | Digital Art Gallery" />
+    <meta
+      name="twitter:description"
+      content="A curated immersive digital art gallery with current exhibitions, selected series, artist information, and contact documents."
+    />
+    <meta name="twitter:image" content="https://cerulean-pie-4aec2e.netlify.app/assets/intro/the-house-of-what-remains.jpg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -15,6 +34,32 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./styles.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Dov Fuchs Digital Art Gallery",
+        "url": "https://cerulean-pie-4aec2e.netlify.app/",
+        "description": "An immersive virtual gallery presenting digital art series, current exhibitions, artist information, and selected documents by Dov Fuchs.",
+        "creator": {
+          "@type": "Person",
+          "name": "Dov Fuchs",
+          "jobTitle": "Digital Artist",
+          "homeLocation": {
+            "@type": "Place",
+            "name": "Haifa, Israel"
+          }
+        },
+        "hasPart": [
+          { "@type": "CreativeWorkSeries", "name": "Portraits of the Inner World" },
+          { "@type": "CreativeWorkSeries", "name": "Absent" },
+          { "@type": "CreativeWorkSeries", "name": "Fictional Realities" },
+          { "@type": "CreativeWorkSeries", "name": "The Time Traveler's Diary" },
+          { "@type": "CreativeWorkSeries", "name": "Echoes Behind the Mirror" },
+          { "@type": "CreativeWorkSeries", "name": "Fading Horizons" }
+        ]
+      }
+    </script>
     <script type="importmap">
       {
         "imports": {
@@ -27,6 +72,112 @@
   <body>
     <main id="app" aria-label="Navigable 3D gallery background">
       <div id="gallery"></div>
+
+      <nav class="crawler-nav" aria-label="Institutional pages">
+        <a href="./about.html">About</a>
+        <a href="./artist-statement.html">Artist Statement</a>
+        <a href="./series.html">Series</a>
+        <a href="./selected-works.html">Selected Works</a>
+        <a href="./cv.html">CV</a>
+        <a href="./contact.html">Contact</a>
+      </nav>
+
+      <section class="mobile-guide" id="mobile-guide" aria-label="Mobile guided gallery">
+        <header class="mobile-hero">
+          <span>Dov Fuchs</span>
+          <h1>Digital Art Gallery</h1>
+          <p>
+            A guided mobile entrance to the virtual gallery, with current exhibitions,
+            selected series, artist information, and office documents.
+          </p>
+          <a href="#mobile-current">Begin</a>
+        </header>
+
+        <section class="mobile-section" id="mobile-current">
+          <span class="mobile-kicker">Current exhibition</span>
+          <h2>Portraits of the Inner World</h2>
+          <p>
+            A temporary focus wall of psychologically charged digital portraits,
+            staged rooms, self-encounters, memory fragments, and inner architecture.
+          </p>
+          <div class="mobile-strip" aria-label="Portraits of the Inner World selected images">
+            <figure>
+              <img src="./assets/inner-world/a-painter-painting-a-painter.jpg" alt="A Painter Painting a Painter by Dov Fuchs" />
+              <figcaption>A Painter Painting a Painter</figcaption>
+            </figure>
+            <figure>
+              <img src="./assets/inner-world/down-into-the-subconscious.jpg" alt="Down into the Subconscious by Dov Fuchs" />
+              <figcaption>Down into the Subconscious</figcaption>
+            </figure>
+            <figure>
+              <img src="./assets/inner-world/the-inner-child.jpg" alt="The Inner Child by Dov Fuchs" />
+              <figcaption>The Inner Child</figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section class="mobile-section">
+          <span class="mobile-kicker">Series library</span>
+          <h2>Dov's Other Series</h2>
+          <div class="mobile-series-grid">
+            <a href="./series.html#absent">
+              <img src="./assets/absent/the-missing-part.jpg" alt="Absent representative image" />
+              <span>Absent</span>
+            </a>
+            <a href="./series.html#fictional-realities">
+              <img src="./assets/fictional-realities/the-raven-and-the-poet.jpg" alt="Fictional Realities representative image" />
+              <span>Fictional Realities</span>
+            </a>
+            <a href="./series.html#time-travelers-diary">
+              <img src="./assets/time-travelers-diary/galileos-secret.jpg" alt="The Time Traveler's Diary representative image" />
+              <span>The Time Traveler's Diary</span>
+            </a>
+            <a href="./series.html#echoes-behind-the-mirror">
+              <img src="./assets/echoes-behind-the-mirror/welcome-to-the-mirror-world.jpg" alt="Echoes Behind the Mirror representative image" />
+              <span>Echoes Behind the Mirror</span>
+            </a>
+            <a href="./series.html#fading-horizons">
+              <img src="./assets/fading-horizons/the-hourglass.jpg" alt="Fading Horizons representative image" />
+              <span>Fading Horizons</span>
+            </a>
+          </div>
+        </section>
+
+        <section class="mobile-section mobile-office">
+          <span class="mobile-kicker">Office</span>
+          <h2>Artist Information</h2>
+          <p>CV, artist statement, about, contact information, price list, and visitor book.</p>
+          <div class="mobile-links">
+            <a href="./assets/docs/cv.pdf">CV</a>
+            <a href="./assets/docs/artist-statement.pdf">Artist Statement</a>
+            <a href="./assets/docs/about.pdf">About</a>
+            <a href="./assets/docs/contact-info.pdf">Contact Information</a>
+            <a href="./assets/docs/price-list.pdf">Price List</a>
+            <a href="./assets/docs/visitor-book.html">Visitor's Book</a>
+          </div>
+        </section>
+
+        <footer class="mobile-footer">
+          <a href="./selected-works.html">Selected Works</a>
+          <a href="./contact.html">Contact</a>
+        </footer>
+      </section>
+
+      <noscript>
+        <section class="no-script-gallery">
+          <h1>Dov Fuchs Digital Art Gallery</h1>
+          <p>
+            This site contains an immersive WebGL gallery. Conventional pages are available
+            for artist information, current exhibitions, selected works, CV, and contact.
+          </p>
+          <p>
+            <a href="./series.html">Series</a>
+            <a href="./selected-works.html">Selected Works</a>
+            <a href="./about.html">About</a>
+            <a href="./contact.html">Contact</a>
+          </p>
+        </section>
+      </noscript>
 
       <header class="topbar">
         <button class="brand-logo" type="button" data-reset aria-label="Dov Fuchs logo, reset view">

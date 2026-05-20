@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://cerulean-pie-4aec2e.netlify.app/sitemap.xml
