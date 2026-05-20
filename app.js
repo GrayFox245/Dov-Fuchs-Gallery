@@ -2520,7 +2520,7 @@ function drawMiniMap() {
   };
   const mapWidth = width - margin * 2;
   const mapHeight = height - margin * 2;
-  const toMapX = (x) => margin + ((x - world.minX) / (world.maxX - world.minX)) * mapWidth;
+  const toMapX = (x) => margin + ((world.maxX - x) / (world.maxX - world.minX)) * mapWidth;
   const toMapY = (z) => margin + ((world.maxZ - z) / (world.maxZ - world.minZ)) * mapHeight;
 
   const drawWorldRect = (x, z, rectWidth, rectDepth, fill, stroke = "rgba(244,239,228,.16)") => {
