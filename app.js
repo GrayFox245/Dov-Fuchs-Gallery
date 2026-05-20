@@ -46,7 +46,7 @@ const startingPoint = {
   x: 14.8,
   y: 1.75,
   z: -16.0,
-  yaw: -0.95,
+  yaw: 2.19,
 };
 const soundtrack = new Audio();
 soundtrack.preload = "auto";
