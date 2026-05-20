@@ -394,6 +394,7 @@ const infoButtons = [];
 const artworkMeshes = [];
 const officeDocMeshes = [];
 const doorTargets = [];
+const galleryVisitors = [];
 
 const visitorCounterKey = "dfdgVisitorCount";
 const ownerModeKey = "dfdgOwnerMode";
@@ -1288,8 +1289,10 @@ function addFloorArrow(x, z, rotationY, scale = 1, target = null) {
   arrowTargets.push(hit);
 }
 
-function addCollider(x, z, halfX, halfZ) {
-  colliders.push({ x, z, halfX, halfZ });
+function addCollider(x, z, halfX, halfZ, options = {}) {
+  const collider = { x, z, halfX, halfZ, ...options };
+  colliders.push(collider);
+  return collider;
 }
 
 const floorMaterial = new THREE.MeshStandardMaterial({
@@ -1481,6 +1484,154 @@ function addSoftSeating() {
 }
 
 addSoftSeating();
+
+function makeVisitorMaterial(color) {
+  return new THREE.MeshStandardMaterial({
+    color,
+    roughness: 0.86,
+    metalness: 0.02,
+    transparent: true,
+    opacity: 0.74,
+  });
+}
+
+function addGalleryVisitor({ name, color, scale = 1, path, speed = 0.52, phase = 0 }) {
+  const group = new THREE.Group();
+  group.name = name;
+  group.userData.path = path;
+  group.userData.speed = speed;
+  group.userData.phase = phase;
+  group.userData.progress = phase;
+  group.userData.collider = addCollider(path[0].x, path[0].z, 0.55 * scale, 0.55 * scale, {
+    kind: "visitor",
+    avoidRadius: 1.45 * scale,
+  });
+
+  const material = makeVisitorMaterial(color);
+  const shadow = new THREE.Mesh(
+    new THREE.CircleGeometry(0.52 * scale, 24),
+    new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.26, depthWrite: false })
+  );
+  shadow.rotation.x = -Math.PI / 2;
+  shadow.position.y = 0.025;
+  group.add(shadow);
+
+  const body = new THREE.Mesh(new THREE.CapsuleGeometry(0.22 * scale, 0.82 * scale, 4, 10), material);
+  body.position.y = 0.98 * scale;
+  body.castShadow = true;
+  group.add(body);
+
+  const head = new THREE.Mesh(new THREE.SphereGeometry(0.19 * scale, 14, 10), material);
+  head.position.y = 1.62 * scale;
+  head.castShadow = true;
+  group.add(head);
+
+  const armGeometry = new THREE.CapsuleGeometry(0.055 * scale, 0.48 * scale, 3, 8);
+  const leftArm = new THREE.Mesh(armGeometry, material);
+  leftArm.position.set(-0.29 * scale, 1.0 * scale, 0);
+  leftArm.rotation.z = 0.22;
+  leftArm.castShadow = true;
+  group.add(leftArm);
+
+  const rightArm = leftArm.clone();
+  rightArm.position.x = 0.29 * scale;
+  rightArm.rotation.z = -0.22;
+  group.add(rightArm);
+
+  const legGeometry = new THREE.CapsuleGeometry(0.06 * scale, 0.54 * scale, 3, 8);
+  const leftLeg = new THREE.Mesh(legGeometry, material);
+  leftLeg.position.set(-0.11 * scale, 0.38 * scale, 0);
+  leftLeg.castShadow = true;
+  group.add(leftLeg);
+
+  const rightLeg = leftLeg.clone();
+  rightLeg.position.x = 0.11 * scale;
+  group.add(rightLeg);
+
+  group.userData.parts = { leftArm, rightArm, leftLeg, rightLeg };
+  group.position.set(path[0].x, 0, path[0].z);
+  scene.add(group);
+  galleryVisitors.push(group);
+  return group;
+}
+
+function interpolateVisitorPath(path, progress) {
+  const wrapped = ((progress % 1) + 1) % 1;
+  const scaled = wrapped * path.length;
+  const index = Math.floor(scaled) % path.length;
+  const nextIndex = (index + 1) % path.length;
+  const local = scaled - index;
+  const from = path[index];
+  const to = path[nextIndex];
+  return {
+    x: THREE.MathUtils.lerp(from.x, to.x, local),
+    z: THREE.MathUtils.lerp(from.z, to.z, local),
+    angle: Math.atan2(to.x - from.x, to.z - from.z),
+  };
+}
+
+function updateGalleryVisitors(delta) {
+  galleryVisitors.forEach((visitor, index) => {
+    const path = visitor.userData.path;
+    visitor.userData.progress += delta * visitor.userData.speed * 0.025;
+    const pose = interpolateVisitorPath(path, visitor.userData.progress);
+    visitor.position.set(pose.x, 0, pose.z);
+    visitor.rotation.y = pose.angle;
+    visitor.userData.collider.x = pose.x;
+    visitor.userData.collider.z = pose.z;
+
+    const stride = Math.sin(performance.now() * 0.005 + index * 1.4) * 0.34;
+    const { leftArm, rightArm, leftLeg, rightLeg } = visitor.userData.parts;
+    leftArm.rotation.x = stride;
+    rightArm.rotation.x = -stride;
+    leftLeg.rotation.x = -stride;
+    rightLeg.rotation.x = stride;
+  });
+}
+
+function addGalleryVisitors() {
+  addGalleryVisitor({
+    name: "gallery-visitor-woman",
+    color: 0x28334a,
+    scale: 0.92,
+    speed: 0.54,
+    phase: 0.12,
+    path: [
+      { x: -9.5, z: -13.0 },
+      { x: -4.2, z: -13.7 },
+      { x: -2.8, z: -7.4 },
+      { x: -8.6, z: -6.2 },
+    ],
+  });
+  addGalleryVisitor({
+    name: "gallery-visitor-man",
+    color: 0x3b3027,
+    scale: 1.06,
+    speed: 0.38,
+    phase: 0.44,
+    path: [
+      { x: 4.4, z: 12.2 },
+      { x: 12.2, z: 12.2 },
+      { x: 12.0, z: 4.0 },
+      { x: 5.0, z: 5.2 },
+    ],
+  });
+  addGalleryVisitor({
+    name: "gallery-visitor-child",
+    color: 0x5d5f3f,
+    scale: 0.66,
+    speed: 0.68,
+    phase: 0.7,
+    path: [
+      { x: -11.4, z: 6.7 },
+      { x: -7.2, z: 8.0 },
+      { x: -8.2, z: 13.0 },
+      { x: -12.2, z: 11.8 },
+    ],
+  });
+}
+
+addGalleryVisitors();
 
 function addDoor({ name, x, z, rotationY = 0, target = null }) {
   const group = new THREE.Group();
@@ -2589,7 +2740,7 @@ function drawMiniMap() {
   camera.getWorldDirection(viewDirection);
   miniMapContext.save();
   miniMapContext.translate(viewerX, viewerY);
-  miniMapContext.rotate(Math.atan2(viewDirection.x, viewDirection.z) + Math.PI / 2);
+  miniMapContext.rotate(Math.atan2(viewDirection.x, viewDirection.z) - Math.PI / 2);
 
   miniMapContext.strokeStyle = "rgba(255, 235, 214, .92)";
   miniMapContext.lineWidth = 2.2;
@@ -2644,13 +2795,23 @@ function drawMiniMap() {
   miniMapContext.restore();
 }
 
-function collides(nextX, nextZ) {
+function isVisitorCollisionDanger(nextX, nextZ) {
+  return colliders.some((box) => {
+    if (box.kind !== "visitor") return false;
+    return Math.hypot(nextX - box.x, nextZ - box.z) < box.avoidRadius;
+  });
+}
+
+function collides(nextX, nextZ, nextY = camera.position.y) {
   const inOffice = nextX > 3.7 && nextX < 11.4 && nextZ > room.depth / 2 - 0.6 && nextZ < 28.0;
   const inOfficeDoorway = nextX > 5.75 && nextX < 8.25 && nextZ > room.depth / 2 - 1.1 && nextZ < room.depth / 2 + 1.1;
   if (inOffice || inOfficeDoorway) return false;
   if (nextX < -room.halfWidth + 0.7 || nextX > room.halfWidth - 0.7) return true;
   if (nextZ < -room.depth / 2 + 0.8 || nextZ > room.depth / 2 - 0.8) return true;
-  return colliders.some((box) => Math.abs(nextX - box.x) < box.halfX && Math.abs(nextZ - box.z) < box.halfZ);
+  return colliders.some((box) => {
+    if (box.kind === "visitor" && nextY > 2.35) return false;
+    return Math.abs(nextX - box.x) < box.halfX && Math.abs(nextZ - box.z) < box.halfZ;
+  });
 }
 
 function updateMovement(delta) {
@@ -2658,6 +2819,9 @@ function updateMovement(delta) {
     camera.position.x = THREE.MathUtils.lerp(camera.position.x, moveTarget.x, Math.min(1, delta * 3.6));
     camera.position.z = THREE.MathUtils.lerp(camera.position.z, moveTarget.z, Math.min(1, delta * 3.6));
     yaw = THREE.MathUtils.lerp(yaw, moveTarget.yaw, Math.min(1, delta * 3.2));
+    if (isVisitorCollisionDanger(camera.position.x, camera.position.z)) {
+      camera.position.y = THREE.MathUtils.lerp(camera.position.y, 2.85, Math.min(1, delta * 3.8));
+    }
     if (Math.hypot(camera.position.x - moveTarget.x, camera.position.z - moveTarget.z) < 0.08) {
       camera.position.x = moveTarget.x;
       camera.position.z = moveTarget.z;
@@ -2682,9 +2846,12 @@ function updateMovement(delta) {
   next.addScaledVector(forwardVector, forward * speed);
   next.addScaledVector(rightVector, strafe * speed);
   next.y = THREE.MathUtils.clamp(next.y + vertical * verticalSpeed, 0.72, room.height - 0.62);
+  if (isVisitorCollisionDanger(next.x, next.z) && next.y < 2.85) {
+    next.y = THREE.MathUtils.clamp(camera.position.y + 3.2 * delta, 0.72, 2.85);
+  }
 
-  if (!collides(next.x, camera.position.z)) camera.position.x = next.x;
-  if (!collides(camera.position.x, next.z)) camera.position.z = next.z;
+  if (!collides(next.x, camera.position.z, next.y)) camera.position.x = next.x;
+  if (!collides(camera.position.x, next.z, next.y)) camera.position.z = next.z;
   camera.position.y = next.y;
 
   camera.rotation.y = yaw;
@@ -2859,6 +3026,7 @@ function setupVisitorCounter() {
 function animate() {
   const delta = Math.min(clock.getDelta(), 0.05);
   updateMovement(delta);
+  updateGalleryVisitors(delta);
   if (officeDoorLeaf) {
     const openAngle = officeDoorOpen ? -1.18 : 0;
     officeDoorLeaf.rotation.y = THREE.MathUtils.lerp(officeDoorLeaf.rotation.y, openAngle, Math.min(1, delta * 4.5));
