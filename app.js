@@ -2729,14 +2729,18 @@ function drawMiniMap() {
   };
   const mapWidth = width - margin * 2;
   const mapHeight = height - margin * 2;
-  const toMapX = (x) => margin + ((world.maxX - x) / (world.maxX - world.minX)) * mapWidth;
+  const toMapX = (x) => margin + ((x - world.minX) / (world.maxX - world.minX)) * mapWidth;
   const toMapY = (z) => margin + ((world.maxZ - z) / (world.maxZ - world.minZ)) * mapHeight;
 
   const drawWorldRect = (x, z, rectWidth, rectDepth, fill, stroke = "rgba(244,239,228,.16)") => {
-    const left = toMapX(x - rectWidth / 2);
-    const right = toMapX(x + rectWidth / 2);
-    const top = toMapY(z + rectDepth / 2);
-    const bottom = toMapY(z - rectDepth / 2);
+    const x1 = toMapX(x - rectWidth / 2);
+    const x2 = toMapX(x + rectWidth / 2);
+    const y1 = toMapY(z + rectDepth / 2);
+    const y2 = toMapY(z - rectDepth / 2);
+    const left = Math.min(x1, x2);
+    const right = Math.max(x1, x2);
+    const top = Math.min(y1, y2);
+    const bottom = Math.max(y1, y2);
     miniMapContext.fillStyle = fill;
     miniMapContext.fillRect(left, top, right - left, bottom - top);
     miniMapContext.strokeStyle = stroke;
@@ -2796,9 +2800,11 @@ function drawMiniMap() {
   const viewerX = toMapX(camera.position.x);
   const viewerY = toMapY(camera.position.z);
   camera.getWorldDirection(viewDirection);
+  const mapDirectionX = toMapX(camera.position.x + viewDirection.x) - viewerX;
+  const mapDirectionY = toMapY(camera.position.z + viewDirection.z) - viewerY;
   miniMapContext.save();
   miniMapContext.translate(viewerX, viewerY);
-  miniMapContext.rotate(Math.atan2(viewDirection.x, viewDirection.z) + Math.PI / 2);
+  miniMapContext.rotate(Math.atan2(mapDirectionY, mapDirectionX) + Math.PI / 2);
 
   miniMapContext.strokeStyle = "rgba(255, 235, 214, .92)";
   miniMapContext.lineWidth = 2.2;
