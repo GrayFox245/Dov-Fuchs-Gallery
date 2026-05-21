@@ -1244,6 +1244,37 @@ function addBox(name, size, position, material, cast = true, receive = true) {
   return mesh;
 }
 
+function addOrientationLabel({ text, x, y, z, rotationY = 0, width = 1.12, height = 0.42 }) {
+  const group = new THREE.Group();
+  group.name = `orientation-label-${text.toLowerCase()}`;
+  group.position.set(x, y, z);
+  group.rotation.y = rotationY;
+
+  const backing = new THREE.Mesh(
+    new THREE.BoxGeometry(width + 0.08, height + 0.08, 0.05),
+    new THREE.MeshStandardMaterial({ color: 0x0f100e, roughness: 0.55, metalness: 0.08 })
+  );
+  backing.castShadow = true;
+  backing.receiveShadow = true;
+  group.add(backing);
+
+  const face = new THREE.Mesh(
+    new THREE.PlaneGeometry(width, height),
+    new THREE.MeshBasicMaterial({
+      map: makeSmallLabelTexture(text, {
+        background: "#10110f",
+        color: "#d6b36d",
+        border: "rgba(214,179,109,.72)",
+        font: "900 50px Sora, Arial, sans-serif",
+      }),
+    })
+  );
+  face.position.z = 0.031;
+  group.add(face);
+  scene.add(group);
+  return group;
+}
+
 function addFloorArrow(x, z, rotationY, scale = 1, target = null) {
   const shape = new THREE.Shape();
   shape.moveTo(0, 1);
@@ -1338,6 +1369,16 @@ addBox("back-wall-right-segment", new THREE.Vector3(1.8, room.height, 0.28), new
 addBox("central-partition", new THREE.Vector3(1.2, room.height, 12.4), new THREE.Vector3(1.2, room.height / 2, 0.4), blackWall);
 addBox("side-partition", new THREE.Vector3(7.4, room.height, 1.1), new THREE.Vector3(9.2, room.height / 2, 8.6), blackWall);
 addBox("short-partition", new THREE.Vector3(1.1, room.height, 8), new THREE.Vector3(-7.6, room.height / 2, -4.5), blackWall);
+
+addOrientationLabel({ text: "W1", x: 0, y: 4.86, z: -17.56, rotationY: 0 });
+addOrientationLabel({ text: "W2", x: -5.2, y: 4.86, z: 17.56, rotationY: Math.PI });
+addOrientationLabel({ text: "W3", x: 15.56, y: 4.86, z: 0, rotationY: -Math.PI / 2 });
+addOrientationLabel({ text: "P1", x: 0.56, y: 4.86, z: 0.4, rotationY: -Math.PI / 2 });
+addOrientationLabel({ text: "P1", x: 1.84, y: 4.86, z: 0.4, rotationY: Math.PI / 2 });
+addOrientationLabel({ text: "P2", x: 9.2, y: 4.86, z: 8.0, rotationY: Math.PI });
+addOrientationLabel({ text: "P2", x: 9.2, y: 4.86, z: 9.2, rotationY: 0 });
+addOrientationLabel({ text: "P3", x: -8.18, y: 4.86, z: -4.5, rotationY: -Math.PI / 2 });
+addOrientationLabel({ text: "P3", x: -7.02, y: 4.86, z: -4.5, rotationY: Math.PI / 2 });
 
 addCollider(1.2, 0.4, 0.8, 6.45);
 addCollider(9.2, 8.6, 3.9, 0.75);
