@@ -2798,7 +2798,7 @@ function drawMiniMap() {
   camera.getWorldDirection(viewDirection);
   miniMapContext.save();
   miniMapContext.translate(viewerX, viewerY);
-  miniMapContext.rotate(Math.atan2(viewDirection.x, viewDirection.z) - Math.PI / 2);
+  miniMapContext.rotate(Math.atan2(viewDirection.x, viewDirection.z) + Math.PI / 2);
 
   miniMapContext.strokeStyle = "rgba(255, 235, 214, .92)";
   miniMapContext.lineWidth = 2.2;
