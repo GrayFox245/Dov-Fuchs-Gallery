@@ -366,7 +366,7 @@ const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x6f91a6);
 scene.fog = new THREE.Fog(0x6f91a6, 42, 95);
 
-const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 120);
+const camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.1, 120);
 camera.position.set(startingPoint.x, startingPoint.y, startingPoint.z);
 camera.rotation.order = "YXZ";
 yaw = startingPoint.yaw;
