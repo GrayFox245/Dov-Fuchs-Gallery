@@ -1267,6 +1267,7 @@ function addOrientationLabel({ text, x, y, z, rotationY = 0, width = 1.12, heigh
         border: "rgba(214,179,109,.72)",
         font: "900 50px Sora, Arial, sans-serif",
       }),
+      side: THREE.DoubleSide,
     })
   );
   face.position.z = 0.031;
