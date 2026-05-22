@@ -3093,7 +3093,7 @@ function stepSeries(direction) {
 
 function setupMobileSeriesLibrary() {
   document.querySelectorAll("[data-mobile-series]").forEach((link) => {
-    const series = otherSeries.find((item) => item.title === link.dataset.mobileSeries);
+    const series = otherSeries.find((item) => item.title === link.textContent.replace("Tap image to open series", "").trim());
     if (!series) return;
 
     link.addEventListener("click", (event) => {

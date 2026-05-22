@@ -175,27 +175,27 @@
           <h2>Dov's Other Series</h2>
           <p>Five related bodies of work gathered outside the current exhibition.</p>
           <div class="mobile-series-grid">
-            <a href="./series.html#absent" data-mobile-series="Absent" aria-label="Open the full Absent series">
+            <a href="./series.html#absent" data-mobile-series="absent" aria-label="Open the full Absent series">
               <img src="./assets/absent/the-missing-part.jpg" alt="Absent representative image" />
               <span>Absent</span>
               <small>Tap image to open series</small>
             </a>
-            <a href="./series.html#fictional-realities" data-mobile-series="Fictional Realities" aria-label="Open the full Fictional Realities series">
+            <a href="./series.html#fictional-realities" data-mobile-series="fictional-realities" aria-label="Open the full Fictional Realities series">
               <img src="./assets/fictional-realities/the-raven-and-the-poet.jpg" alt="Fictional Realities representative image" />
               <span>Fictional Realities</span>
               <small>Tap image to open series</small>
             </a>
-            <a href="./series.html#time-travelers-diary" data-mobile-series="The Time Traveler's Diary" aria-label="Open the full Time Traveler's Diary series">
+            <a href="./series.html#time-travelers-diary" data-mobile-series="time-travelers-diary" aria-label="Open the full Time Traveler's Diary series">
               <img src="./assets/time-travelers-diary/galileos-secret.jpg" alt="The Time Traveler's Diary representative image" />
               <span>The Time Traveler's Diary</span>
               <small>Tap image to open series</small>
             </a>
-            <a href="./series.html#echoes-behind-the-mirror" data-mobile-series="Echoes Behind the Mirror" aria-label="Open the full Echoes Behind the Mirror series">
+            <a href="./series.html#echoes-behind-the-mirror" data-mobile-series="echoes-behind-the-mirror" aria-label="Open the full Echoes Behind the Mirror series">
               <img src="./assets/echoes-behind-the-mirror/welcome-to-the-mirror-world.jpg" alt="Echoes Behind the Mirror representative image" />
               <span>Echoes Behind the Mirror</span>
               <small>Tap image to open series</small>
             </a>
-            <a href="./series.html#fading-horizons" data-mobile-series="Fading Horizons" aria-label="Open the full Fading Horizons series">
+            <a href="./series.html#fading-horizons" data-mobile-series="fading-horizons" aria-label="Open the full Fading Horizons series">
               <img src="./assets/fading-horizons/the-hourglass.jpg" alt="Fading Horizons representative image" />
               <span>Fading Horizons</span>
               <small>Tap image to open series</small>
@@ -212,13 +212,14 @@
             <a href="./assets/docs/artist-statement.pdf">Artist Statement</a>
             <a href="./assets/docs/about.pdf">About</a>
             <a href="./assets/docs/contact-info.pdf">Contact Information</a>
+            <a href="./assets/docs/contact.html">Contact / Email</a>
             <a href="./assets/docs/price-list.pdf">Price List</a>
             <a href="./assets/docs/visitor-book.html">Visitor's Book</a>
           </div>
         </section>
 
         <footer class="mobile-footer">
-          <a href="./selected-works.html">Selected Works</a>
+          <a href="./series.html">Series Overview</a>
           <a href="./contact.html">Contact</a>
         </footer>
       </section>
@@ -324,6 +325,101 @@
       </section>
     </main>
 
+    <script>
+      (() => {
+        const mobileQuery = window.matchMedia("(max-width: 820px), (hover: none) and (pointer: coarse)");
+        const titleFromFile = (fileName) => fileName
+          .replace(/\.[^.]+$/, "")
+          .split("-")
+          .map((part) => part ? part[0].toUpperCase() + part.slice(1) : part)
+          .join(" ");
+
+        const modal = document.querySelector("#series-modal");
+        const modalImage = document.querySelector("#series-modal-img");
+        const modalTitle = document.querySelector("#series-modal-title");
+        const modalDescription = document.querySelector("#series-modal-description");
+        const modalCount = document.querySelector("#series-modal-count");
+        const closeButton = document.querySelector("[data-close-series]");
+        const previousButton = document.querySelector("[data-series-prev]");
+        const nextButton = document.querySelector("[data-series-next]");
+        let mobileCatalogPromise = null;
+        let mobileSeries = null;
+        let mobileSeriesIndex = 0;
+
+        const loadMobileCatalog = () => {
+          if (!mobileCatalogPromise) {
+            mobileCatalogPromise = fetch("./data/series-catalog.json")
+              .then((response) => response.json())
+              .then((data) => data.series || []);
+          }
+          return mobileCatalogPromise;
+        };
+
+        const renderMobileSeries = () => {
+          if (!mobileSeries) return;
+          const fileName = mobileSeries.images[mobileSeriesIndex];
+          modalImage.src = `${mobileSeries.assetPath}${fileName}`;
+          modalImage.alt = `${titleFromFile(fileName)} by Dov Fuchs`;
+          modalTitle.textContent = titleFromFile(fileName);
+          modalDescription.textContent = mobileSeries.title;
+          modalCount.textContent = `${mobileSeriesIndex + 1} / ${mobileSeries.images.length}`;
+        };
+
+        const openMobileSeries = async (seriesId) => {
+          const catalog = await loadMobileCatalog();
+          const nextSeries = catalog.find((item) => item.id === seriesId);
+          if (!nextSeries || !nextSeries.images?.length) return;
+          mobileSeries = nextSeries;
+          mobileSeriesIndex = 0;
+          renderMobileSeries();
+          modal.classList.add("open");
+          modal.setAttribute("aria-hidden", "false");
+        };
+
+        const closeMobileSeries = () => {
+          if (!mobileSeries) return;
+          modal.classList.remove("open");
+          modal.setAttribute("aria-hidden", "true");
+          mobileSeries = null;
+        };
+
+        const stepMobileSeries = (direction) => {
+          if (!mobileSeries) return;
+          mobileSeriesIndex = (mobileSeriesIndex + direction + mobileSeries.images.length) % mobileSeries.images.length;
+          renderMobileSeries();
+        };
+
+        document.querySelectorAll("[data-mobile-series]").forEach((link) => {
+          link.addEventListener("click", (event) => {
+            if (!mobileQuery.matches) return;
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            openMobileSeries(link.dataset.mobileSeries);
+          }, true);
+        });
+
+        closeButton.addEventListener("click", (event) => {
+          if (!mobileSeries) return;
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          closeMobileSeries();
+        }, true);
+
+        previousButton.addEventListener("click", (event) => {
+          if (!mobileSeries) return;
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          stepMobileSeries(-1);
+        }, true);
+
+        nextButton.addEventListener("click", (event) => {
+          if (!mobileSeries) return;
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          stepMobileSeries(1);
+        }, true);
+      })();
+    </script>
     <script type="module" src="./app.js"></script>
   </body>
 </html>
