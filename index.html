@@ -83,12 +83,18 @@
       </nav>
 
       <section class="mobile-guide" id="mobile-guide" aria-label="Mobile guided gallery">
+        <nav class="mobile-nav" aria-label="Mobile gallery sections">
+          <a href="#mobile-current">Exhibition</a>
+          <a href="#mobile-month">Month</a>
+          <a href="#mobile-series">Series</a>
+          <a href="#mobile-office">Office</a>
+        </nav>
         <header class="mobile-hero">
-          <span>Dov Fuchs</span>
-          <h1>Digital Art Gallery</h1>
+          <span>Mobile gallery</span>
+          <h1><span>Dov Fuchs</span><span>Digital Art Gallery</span></h1>
           <p>
-            A guided mobile entrance to the virtual gallery, with current exhibitions,
-            selected series, artist information, and office documents.
+            A guided entrance for small screens: current exhibition, image of the month,
+            series library, and artist information.
           </p>
           <a href="#mobile-current">Begin</a>
         </header>
@@ -100,7 +106,7 @@
             A temporary focus wall of psychologically charged digital portraits,
             staged rooms, self-encounters, memory fragments, and inner architecture.
           </p>
-          <div class="mobile-strip" aria-label="Portraits of the Inner World selected images">
+          <div class="mobile-strip mobile-exhibition-strip" aria-label="Portraits of the Inner World exhibition images">
             <figure>
               <img src="./assets/inner-world/a-painter-painting-a-painter.jpg" alt="A Painter Painting a Painter by Dov Fuchs" />
               <figcaption>A Painter Painting a Painter</figcaption>
@@ -110,15 +116,64 @@
               <figcaption>Down into the Subconscious</figcaption>
             </figure>
             <figure>
+              <img src="./assets/inner-world/inner-conflict.jpg" alt="Inner Conflict by Dov Fuchs" />
+              <figcaption>Inner Conflict</figcaption>
+            </figure>
+            <figure>
               <img src="./assets/inner-world/the-inner-child.jpg" alt="The Inner Child by Dov Fuchs" />
               <figcaption>The Inner Child</figcaption>
+            </figure>
+            <figure>
+              <img src="./assets/inner-world/volcanic-eruption.jpg" alt="Volcanic Eruption by Dov Fuchs" />
+              <figcaption>Volcanic Eruption</figcaption>
+            </figure>
+            <figure>
+              <img src="./assets/inner-world/the-omen.jpg" alt="The Omen by Dov Fuchs" />
+              <figcaption>The Omen</figcaption>
+            </figure>
+            <figure>
+              <img src="./assets/inner-world/the-frames-smasher.jpg" alt="The Frames Smasher by Dov Fuchs" />
+              <figcaption>The Frames Smasher</figcaption>
+            </figure>
+            <figure>
+              <img src="./assets/inner-world/the-inner-stalker.jpg" alt="The Inner Stalker by Dov Fuchs" />
+              <figcaption>The Inner Stalker</figcaption>
+            </figure>
+            <figure>
+              <img src="./assets/inner-world/fake-memories.jpg" alt="Fake Memories by Dov Fuchs" />
+              <figcaption>Fake Memories</figcaption>
+            </figure>
+            <figure>
+              <img src="./assets/inner-world/the-internal-tribunal.jpg" alt="The Internal Tribunal by Dov Fuchs" />
+              <figcaption>The Internal Tribunal</figcaption>
+            </figure>
+            <figure>
+              <img src="./assets/inner-world/the-winds-of-forgetting.jpg" alt="The Winds of Forgetting by Dov Fuchs" />
+              <figcaption>The Winds of Forgetting</figcaption>
+            </figure>
+            <figure>
+              <img src="./assets/inner-world/labyrinth-of-the-mind.jpg" alt="Labyrinth of the Mind by Dov Fuchs" />
+              <figcaption>Labyrinth of the Mind</figcaption>
             </figure>
           </div>
         </section>
 
-        <section class="mobile-section">
+        <section class="mobile-section mobile-month" id="mobile-month">
+          <span class="mobile-kicker">Image of the month</span>
+          <h2>The House of What Remains</h2>
+          <figure>
+            <img src="./assets/featured/image-of-the-month.jpg" alt="The House of What Remains by Dov Fuchs" />
+            <figcaption>
+              A corridor of memory, shadow, and self-recognition, where portrait and visitor
+              seem to belong to the same unresolved story.
+            </figcaption>
+          </figure>
+        </section>
+
+        <section class="mobile-section" id="mobile-series">
           <span class="mobile-kicker">Series library</span>
           <h2>Dov's Other Series</h2>
+          <p>Five related bodies of work gathered outside the current exhibition.</p>
           <div class="mobile-series-grid">
             <a href="./series.html#absent">
               <img src="./assets/absent/the-missing-part.jpg" alt="Absent representative image" />
@@ -143,7 +198,7 @@
           </div>
         </section>
 
-        <section class="mobile-section mobile-office">
+        <section class="mobile-section mobile-office" id="mobile-office">
           <span class="mobile-kicker">Office</span>
           <h2>Artist Information</h2>
           <p>CV, artist statement, about, contact information, price list, and visitor book.</p>
