@@ -3091,6 +3091,23 @@ function stepSeries(direction) {
   renderSeriesViewer();
 }
 
+function setupMobileSeriesLibrary() {
+  document.querySelectorAll("[data-mobile-series]").forEach((link) => {
+    const series = otherSeries.find((item) => item.title === link.dataset.mobileSeries);
+    if (!series) return;
+
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      showSeriesViewer(series, 0);
+    });
+
+    link.addEventListener("dblclick", (event) => {
+      event.preventDefault();
+      showSeriesViewer(series, 0);
+    });
+  });
+}
+
 function showPdfDocument(documentInfo) {
   if (!documentInfo.pdf) return;
   closeArtworkInfo();
@@ -3238,6 +3255,7 @@ document.querySelector("[data-close-pdf]").addEventListener("click", closePdfDoc
 document.querySelector("[data-close-series]").addEventListener("click", closeSeriesViewer);
 document.querySelector("[data-series-prev]").addEventListener("click", () => stepSeries(-1));
 document.querySelector("[data-series-next]").addEventListener("click", () => stepSeries(1));
+setupMobileSeriesLibrary();
 ownerMode.addEventListener("change", () => {
   localStorage.setItem(ownerModeKey, ownerMode.checked ? "true" : "false");
 });
