@@ -400,7 +400,7 @@ const visitorCounterKey = "dfdgVisitorCount";
 const ownerModeKey = "dfdgOwnerMode";
 const sessionCountedKey = "dfdgSessionCounted";
 
-const todaysExhibition = [
+const portraitsOfTheInnerWorldImages = [
   {
     title: "A Painter Painting a Painter",
     description: "A layered self-portrait where artist, subject, and observer fold into one another.",
@@ -463,12 +463,14 @@ const todaysExhibition = [
   },
 ];
 
+const todaysExhibition = absentImages;
+
 const otherSeries = [
   {
-    title: "Absent",
-    description: "A series about disappearance, missing parts, suspended bodies, and the strange presence left behind by what is no longer there.",
-    image: "./assets/absent/the-missing-part.jpg",
-    images: absentImages,
+    title: "Portraits of the Inner World",
+    description: "A series of psychologically charged portraits, staged rooms, self-encounters, memory fragments, and inner architecture.",
+    image: "./assets/inner-world/a-painter-painting-a-painter.jpg",
+    images: portraitsOfTheInnerWorldImages,
     isSeries: true,
   },
   {
@@ -795,8 +797,7 @@ function makeExhibitionBoardTexture() {
 
   context.fillStyle = "#f4efe4";
   context.font = "900 88px Arial, sans-serif";
-  context.fillText("Portraits of the", canvas.width / 2, 300);
-  context.fillText("Inner World", canvas.width / 2, 402);
+  context.fillText("Absent", canvas.width / 2, 350);
 
   context.fillStyle = "rgba(244,239,228,.72)";
   context.font = "500 34px Sora, Arial, sans-serif";
@@ -1103,8 +1104,8 @@ function makeBulletinBoardTexture() {
       body: "Now featuring: An Image is Born.",
     },
     {
-      title: "Gallery Rotation",
-      body: "Weekly series rotations and image-of-the-month updates will appear here.",
+      title: "Series of the Week (May 31, 2026)",
+      body: "Now featuring: Absent.",
     },
     {
       title: "Office",
@@ -2053,8 +2054,8 @@ function addGallerySign() {
 function addElectronicBoard() {
   const frameMaterial = new THREE.MeshStandardMaterial({ color: 0x10110f, roughness: 0.38, metalness: 0.18 });
   const seriesReview = {
-    title: "Portraits of the Inner World",
-    description: "This series treats the self as a place of fragments, echoes, false memories, pressure, escape, and reconstruction. The images do not describe a single portrait subject; they stage inner states as rooms, ruptures, masks, and emotional weather.",
+    title: "Absent",
+    description: "A series about disappearance, missing parts, suspended bodies, and the strange presence left behind by what is no longer there.",
   };
   const frame = new THREE.Mesh(new THREE.BoxGeometry(4.8, 2.85, 0.2), frameMaterial);
   frame.position.set(9.2, 2.85, 7.92);

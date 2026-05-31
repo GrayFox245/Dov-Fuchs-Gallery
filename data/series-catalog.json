@@ -3,7 +3,8 @@
     {
       "id": "portraits-of-the-inner-world",
       "title": "Portraits of the Inner World",
-      "role": "current-exhibition",
+      "role": "series-library",
+      "representativeImage": "a-painter-painting-a-painter.jpg",
       "images": [
         "a-painter-painting-a-painter.jpg",
         "down-into-the-subconscious.jpg",
@@ -23,8 +24,7 @@
     {
       "id": "absent",
       "title": "Absent",
-      "role": "series-library",
-      "representativeImage": "the-missing-part.jpg",
+      "role": "current-exhibition",
       "images": [
         "a-moment-of-relaxation.jpg",
         "awaiting-nothing.jpg",
