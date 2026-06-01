@@ -1,4 +1,4 @@
-import * as THREE from "three";
+﻿import * as THREE from "three";
 
 const container = document.querySelector("#gallery");
 const intro = document.querySelector("#intro");
@@ -502,8 +502,9 @@ const otherSeries = [
 ];
 
 const imageOfTheMonth = {
-  title: "The House of What Remains",
-  description: "Image of the Month. A corridor of memory, shadow, and self-recognition, where the portrait on the wall and the figure entering the room seem to belong to the same unresolved story.",
+  title: "An Image is Born",
+  description:
+    "Image of the Month. A waking dream in two layers: the studio below, the cosmos above—creation beginning as a quiet rupture in the ceiling of the everyday.",
   image: "./assets/featured/image-of-the-month.jpg",
 };
 
@@ -1098,8 +1099,8 @@ function makeBulletinBoardTexture() {
       body: "All images are available on Dibond - standard sizes: 60 x 60 cm and 80 x 80 cm.",
     },
     {
-      title: "Sales Notices",
-      body: "Future announcements for special offers and available works.",
+      title: "Image of the Month (Jun 1, 2026)",
+      body: "Now featuring: An Image is Born.",
     },
     {
       title: "Gallery Rotation",
