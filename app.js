@@ -504,9 +504,9 @@ const otherSeries = [
 ];
 
 const imageOfTheMonth = {
-  title: "An Image is Born",
+  title: "Soft Heart",
   description:
-    "Image of the Month. A waking dream in two layers: the studio below, the cosmos above—creation beginning as a quiet rupture in the ceiling of the everyday.",
+    "Image of the Month. A surreal meditation on tenderness and appetite, where a melting heart becomes both offering and sustenance.",
   image: "./assets/featured/image-of-the-month.jpg",
 };
 
@@ -1100,8 +1100,8 @@ function makeBulletinBoardTexture() {
       body: "All images are available on Dibond - standard sizes: 60 x 60 cm and 80 x 80 cm.",
     },
     {
-      title: "Image of the Month (Jun 1, 2026)",
-      body: "Now featuring: An Image is Born.",
+      title: "Image of the Month (Aug 1, 2026)",
+      body: "Now featuring: Soft Heart.",
     },
     {
       title: "Series of the Week (May 31, 2026)",
