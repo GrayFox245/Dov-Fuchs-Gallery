@@ -463,9 +463,16 @@ const portraitsOfTheInnerWorldImages = [
   },
 ];
 
-const todaysExhibition = absentImages;
+const todaysExhibition = echoesBehindMirrorImages;
 
 const otherSeries = [
+  {
+    title: "Absent",
+    description: "A series about disappearance, missing parts, suspended bodies, and the strange presence left behind by what is no longer there.",
+    image: "./assets/absent/the-missing-part.jpg",
+    images: absentImages,
+    isSeries: true,
+  },
   {
     title: "Portraits of the Inner World",
     description: "A series of psychologically charged portraits, staged rooms, self-encounters, memory fragments, and inner architecture.",
@@ -485,13 +492,6 @@ const otherSeries = [
     description: "A journey through impossible encounters with history, art, memory, invention, and the strange privilege of arriving too early or too late.",
     image: "./assets/time-travelers-diary/galileos-secret.jpg",
     images: timeTravelerDiaryImages,
-    isSeries: true,
-  },
-  {
-    title: "Echoes Behind the Mirror",
-    description: "Mirrors become portals, traps, and stages for altered selves, unstable identities, and confrontations with reflection.",
-    image: "./assets/echoes-behind-the-mirror/welcome-to-the-mirror-world.jpg",
-    images: echoesBehindMirrorImages,
     isSeries: true,
   },
   {
@@ -796,8 +796,9 @@ function makeExhibitionBoardTexture() {
   context.fillText("TODAY'S EXHIBITION", canvas.width / 2, 118);
 
   context.fillStyle = "#f4efe4";
-  context.font = "900 88px Arial, sans-serif";
-  context.fillText("Absent", canvas.width / 2, 350);
+  context.font = "900 72px Arial, sans-serif";
+  context.fillText("Echoes Behind", canvas.width / 2, 300);
+  context.fillText("the Mirror", canvas.width / 2, 402);
 
   context.fillStyle = "rgba(244,239,228,.72)";
   context.font = "500 34px Sora, Arial, sans-serif";
@@ -1104,8 +1105,8 @@ function makeBulletinBoardTexture() {
       body: "Now featuring: Soft Heart.",
     },
     {
-      title: "Series of the Week (May 31, 2026)",
-      body: "Now featuring: Absent.",
+      title: "Series of the Week (Aug 2, 2026)",
+      body: "Now featuring: Echoes Behind the Mirror.",
     },
     {
       title: "Office",
@@ -2054,8 +2055,8 @@ function addGallerySign() {
 function addElectronicBoard() {
   const frameMaterial = new THREE.MeshStandardMaterial({ color: 0x10110f, roughness: 0.38, metalness: 0.18 });
   const seriesReview = {
-    title: "Absent",
-    description: "A series about disappearance, missing parts, suspended bodies, and the strange presence left behind by what is no longer there.",
+    title: "Echoes Behind the Mirror",
+    description: "Mirrors become portals, traps, and stages for altered selves, unstable identities, and confrontations with reflection.",
   };
   const frame = new THREE.Mesh(new THREE.BoxGeometry(4.8, 2.85, 0.2), frameMaterial);
   frame.position.set(9.2, 2.85, 7.92);

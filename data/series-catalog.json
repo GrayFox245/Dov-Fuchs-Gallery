@@ -24,7 +24,8 @@
     {
       "id": "absent",
       "title": "Absent",
-      "role": "current-exhibition",
+      "role": "series-library",
+      "representativeImage": "the-missing-part.jpg",
       "images": [
         "a-moment-of-relaxation.jpg",
         "awaiting-nothing.jpg",
@@ -98,8 +99,7 @@
     {
       "id": "echoes-behind-the-mirror",
       "title": "Echoes Behind the Mirror",
-      "role": "series-library",
-      "representativeImage": "welcome-to-the-mirror-world.jpg",
+      "role": "current-exhibition",
       "images": [
         "genesis-1-26.jpg",
         "head-first-jump-into-the-mirror-world.jpg",
